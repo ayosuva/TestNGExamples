@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class SimpleTest2 {
+public class SimpleTest2 extends Setup {
 
 
     @Test
@@ -16,14 +16,14 @@ public class SimpleTest2 {
     {
         //System.setProperty("webdriver.chrome.driver","lib/chromedriver.exe");
         WebTablePage webTablePage = new WebTablePage();
-        List<WebElement> fname= Setup.driver.findElements(webTablePage.fnanme);
-             List<WebElement> delete=  Setup.driver.findElements(webTablePage.delete);
+        List<WebElement> fname= driver.findElements(webTablePage.fnanme);
+             List<WebElement> delete=  driver.findElements(webTablePage.delete);
         for (int i = 0; i < fname.size(); i++) {
             if(fname.get(i).getText().equals("Tim")){
                 delete.get(i).click();
             }
         }
-        fname= Setup.driver.findElements(webTablePage.fnanme);
+        fname= driver.findElements(webTablePage.fnanme);
         Assert.assertEquals("Test","Test");
         Assert.assertEquals(fname.size(),3);
 

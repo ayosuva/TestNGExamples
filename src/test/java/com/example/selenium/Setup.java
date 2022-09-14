@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeTest;
 import java.time.Duration;
 
 public class Setup {
-    public  static WebDriver driver;
+    public static WebDriver driver;
     @BeforeSuite
     public void setup() {
         WebDriverManager.chromedriver().setup();
