@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="C:/Yosuva/Workspace/MavenTestNG">
+    <test verbose="2" preserve-order="true" name="C:/Yosuva/Workspace/MavenTestNG" thread-count="2" parallel="classes">
         <classes>
-            <class name="com.example.selenium.SimpleTest"></class>
-            <class name="com.example.selenium.SimpleTest2"></class>
+            <class name="com.argos.tests.TrollyTest"></class>
+            <class name="com.argos.tests.TrollyTest1"></class>
         </classes>
     </test>
 </suite>
