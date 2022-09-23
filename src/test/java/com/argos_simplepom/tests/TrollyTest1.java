@@ -1,12 +1,12 @@
-package com.argos.tests;
+package com.argos_simplepom.tests;
 
-import com.argos.Utils.TestSetup;
-import com.argos.pages.HomePage;
-import com.argos.pages.ProductDetailsPage;
-import com.argos.pages.SearchResultPage;
-import com.argos.pages.TrolleyPage;
+import com.argos_simplepom.Utils.TestSetup;
+import com.argos_simplepom.pages.HomePage;
+import com.argos_simplepom.pages.ProductDetailsPage;
+import com.argos_simplepom.pages.SearchResultPage;
+import com.argos_simplepom.pages.TrolleyPage;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -27,23 +27,20 @@ public class TrollyTest1 extends TestSetup {
     }
     @Test()
     public void testTrolly() {
-        HomePage homePage = new HomePage();
+        HomePage homePage = new HomePage(driver);
         driver.findElement(homePage.btn_cookie_accept).click();
         String search_value="iphone 13 pro max";
         driver.findElement(homePage.txt_Product_Search).sendKeys(search_value);
         driver.findElement(homePage.btn_Search).click();
         Assert.assertTrue(driver.getTitle().contains("Results for "+search_value));
 
-        SearchResultPage searchResultPage = new SearchResultPage();
-        driver.findElement(searchResultPage.link_price_showMore).click();
+
+        SearchResultPage searchResultPage = new SearchResultPage(driver);
+        driver.findElement(searchResultPage.link_price_showMore_filter).click();
         driver.findElement(searchResultPage.check_price_1000_to_2000).click();
-        /*WebElement firstResult = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(By.tagName("button")));*/
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(searchResultPage.link_all_product_titles));
+
         List<WebElement> list_all_product_titles=driver.findElements(searchResultPage.link_all_product_titles);
         List<WebElement> list_all_prices=driver.findElements(searchResultPage.label_all_product_price);
         String selected_product_price="";
@@ -59,21 +56,25 @@ public class TrollyTest1 extends TestSetup {
 
         }
 
-        ProductDetailsPage productDetailsPage = new ProductDetailsPage();
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        ProductDetailsPage productDetailsPage = new ProductDetailsPage(driver);
+        /*new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(productDetailsPage.btn_add_to_trolley));
         WebElement avatar=driver.findElement(productDetailsPage.btn_add_to_trolley);
-        new Actions(driver).moveToElement(avatar).perform();
-        driver.findElement(productDetailsPage.btn_add_to_trolley).click();
+        new Actions(driver).moveToElement(avatar).perform();*/
+        //driver.findElement(productDetailsPage.btn_add_to_trolley).click();
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", driver.findElement(productDetailsPage.btn_add_to_trolley));
+
 
         Assert.assertEquals(driver.findElement(productDetailsPage.label_added_to_trolley_msg).getText(),"Added to trolley");
         Assert.assertTrue(driver.findElement(productDetailsPage.label_added_to_trolley_msg).isDisplayed());
         driver.findElement(productDetailsPage.btn_close_message).click();
-
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.textToBe(homePage.label_trolley_count,"1"));
         Assert.assertEquals(driver.findElement(homePage.label_trolley_count).getText(),"1");
 
         driver.findElement(homePage.label_trolley_count).click();
-        TrolleyPage trolleyPage = new TrolleyPage();
+        TrolleyPage trolleyPage = new TrolleyPage(driver);
         Assert.assertEquals(driver.findElement(trolleyPage.label_total_price).getText().replace(",",""),selected_product_price);
         driver.findElement(trolleyPage.link_remove_from_trolley).click();
         Assert.assertEquals(driver.findElement(trolleyPage.label_empty_trolley).getText(),"Empty trolley!");

@@ -3,8 +3,10 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="C:/Yosuva/Workspace/MavenTestNG" thread-count="2" parallel="classes">
         <classes>
-            <class name="com.argos.tests.TrollyTest"></class>
-            <class name="com.argos.tests.TrollyTest1"></class>
+<!--
+            <class name="com.argos_simplepom.tests.TrollyTest1"></class>
+-->
+            <class name="com.argos_pagefactory.tests.TrollyTest"></class>
         </classes>
     </test>
 </suite>
