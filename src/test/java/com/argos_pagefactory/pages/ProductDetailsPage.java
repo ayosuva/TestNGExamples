@@ -24,6 +24,11 @@ public class ProductDetailsPage {
     }
 
     public void click_add_to_trolley(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", btn_add_to_trolley);
     }
